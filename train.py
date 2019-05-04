@@ -15,7 +15,7 @@ data = getStockDataVec(stock_name)
 l = len(data) - 1
 batch_size = 32
 epsilon = 0.05
-
+tp_per_episode = []
 for e in range(episode_count + 1):
 	print("Episode " + str(e) + "/" + str(episode_count))
 	state = getState(data, 0, window_size + 1)
@@ -27,7 +27,7 @@ for e in range(episode_count + 1):
 
 		if (np.random.uniform(0, 0.1) < epsilon):
 			action = random.randint(1, 3)
-			epsilon /= t
+            epsilon /= e
 		else:
 			action = agent.act(state)
 
@@ -53,9 +53,13 @@ for e in range(episode_count + 1):
 			print("--------------------------------")
 			print("Total Profit: " + formatPrice(total_profit))
 			print("--------------------------------")
+            tp_per_episode.append(total_profit)
 
 		if len(agent.memory) > batch_size:
 			agent.expReplay(batch_size)
 
 	if e % 10 == 0:
 		agent.model.save("models/model_ep" + str(e))
+
+for tp in tp_per_episode:
+    print(tp)
