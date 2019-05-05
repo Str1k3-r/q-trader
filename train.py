@@ -16,7 +16,7 @@ l = len(data) - 1
 batch_size = 32
 epsilon = 0.05
 tp_array = []
-for e in range(episode_count + 1):
+for e in range(1, episode_count + 2):
     print("Episode " + str(e) + "/" + str(episode_count))
     state = getState(data, 0, window_size + 1)
 
